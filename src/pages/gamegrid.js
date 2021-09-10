@@ -37,13 +37,14 @@ const GameGrid = ({mWidth, mHeight, gridSize, controllerId}) => {
     for (let j=0; j<mGridSize; j++)
     {
       //row.push(Math.random() < 0.5);
-      //Only fill the center of the grid leaving empty cells around
       if(i>mGridSize*0.4 && i<mGridSize*0.6 && j>mGridSize*0.4 && j<mGridSize*0.6) row.push(Math.random() < 0.5)
       else row.push(false)
     }
     mGrid.push(row);
     mTempGrid.push(Array(row));
   }
+
+  let mFoodPoints = [];
 
   const getNeighbors = (i, j) => {
       let count = 0;
@@ -70,6 +71,10 @@ const GameGrid = ({mWidth, mHeight, gridSize, controllerId}) => {
       return result;
   }
 
+  const addFoodPoint = (x, y) => {
+    mFoodPoints.push({'x': x, 'y': y})
+  }
+
   const clearImage = () => {
     let canvasElem = document.getElementById('game-canvas')
     if (canvasElem === null) return;
@@ -91,12 +96,12 @@ const GameGrid = ({mWidth, mHeight, gridSize, controllerId}) => {
     let ctx = canvasElem.getContext('2d');
     ctx.imageSmoothingEnabled = false
 
-    ctx.fillStyle = "#ffffff";
-    ctx.clearRect(0, 0, 1000, 1000);
     for (let i=0;i<mGridSize;i++) {
       for (let j=0;j<mGridSize;j++)
       {
-        if (mGrid[i][j] === true) { ctx.fillRect(j*CELLWIDTH, i*CELLWIDTH, CELLWIDTH, CELLWIDTH); }
+        if (mGrid[i][j] === false) { ctx.fillRect(j*CELLWIDTH, i*CELLWIDTH, CELLWIDTH, CELLWIDTH); }
+        else { ctx.clearRect(j*CELLWIDTH, i*CELLWIDTH, CELLWIDTH, CELLWIDTH); }
+        /*if(!(i>mGridSize*0.4 && i<mGridSize*0.6 && j>mGridSize*0.4 && j<mGridSize*0.6))*/
         mTempGrid[i][j] = checkRules(i,j);
       }
     }
@@ -111,11 +116,19 @@ const GameGrid = ({mWidth, mHeight, gridSize, controllerId}) => {
     ;
   }
 
-  const mouseDownEvent = (event) => {isMouseDown = true;}
-  const mouseUpEvent = (event) => {isMouseDown = false;}
+  const mouseDownEvent = (event) =>
+  {
+    isMouseDown = true;
+  }
 
-  const mouseMoveEvent = (event) => {
-    if (isMouseDown)
+  const mouseUpEvent = (event) =>
+  {
+    isMouseDown = false;
+  }
+
+  const mouseMoveEvent = (event) =>
+  {
+    if (isMouseDown) 
     {
       let elem = event.target;
       let geom = elem.getBoundingClientRect();
@@ -126,6 +139,7 @@ const GameGrid = ({mWidth, mHeight, gridSize, controllerId}) => {
       mGrid[y][x] = true;
     }
   }
+
 
   const handlePlayToggle = () => {
     console.log('click', mAnimationFrame, mStopNextFrame)
