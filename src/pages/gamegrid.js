@@ -44,8 +44,6 @@ const GameGrid = ({mWidth, mHeight, gridSize, controllerId}) => {
     mTempGrid.push(Array(row));
   }
 
-  let mFoodPoints = [];
-
   const getNeighbors = (i, j) => {
       let count = 0;
       let im1 = (i-1+mGridSize)%mGridSize;
@@ -71,10 +69,6 @@ const GameGrid = ({mWidth, mHeight, gridSize, controllerId}) => {
       return result;
   }
 
-  const addFoodPoint = (x, y) => {
-    mFoodPoints.push({'x': x, 'y': y})
-  }
-
   const clearImage = () => {
     let canvasElem = document.getElementById('game-canvas')
     if (canvasElem === null) return;
@@ -96,12 +90,12 @@ const GameGrid = ({mWidth, mHeight, gridSize, controllerId}) => {
     let ctx = canvasElem.getContext('2d');
     ctx.imageSmoothingEnabled = false
 
+    ctx.fillStyle = "#ffffff";
+    ctx.clearRect(j*CELLWIDTH, i*CELLWIDTH, CELLWIDTH, CELLWIDTH);
     for (let i=0;i<mGridSize;i++) {
       for (let j=0;j<mGridSize;j++)
       {
-        if (mGrid[i][j] === false) { ctx.fillRect(j*CELLWIDTH, i*CELLWIDTH, CELLWIDTH, CELLWIDTH); }
-        else { ctx.clearRect(j*CELLWIDTH, i*CELLWIDTH, CELLWIDTH, CELLWIDTH); }
-        /*if(!(i>mGridSize*0.4 && i<mGridSize*0.6 && j>mGridSize*0.4 && j<mGridSize*0.6))*/
+        if (mGrid[i][j] === true) { ctx.fillRect(j*CELLWIDTH, i*CELLWIDTH, CELLWIDTH, CELLWIDTH); }
         mTempGrid[i][j] = checkRules(i,j);
       }
     }
