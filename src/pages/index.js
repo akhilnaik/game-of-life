@@ -68,11 +68,12 @@ const IndexPage = () => {
     let ctx = canvasRef.current.getContext('2d');
     ctx.imageSmoothingEnabled = false
 
+    ctx.fillStyle = "#ffffff";
+    ctx.clearRect(0, 0, 1000, 1000);
     for (let i=0;i<mGridSize;i++) {
       for (let j=0;j<mGridSize;j++)
       {
-        if (mGrid[i][j] === false) { ctx.fillRect(j*CELLWIDTH, i*CELLWIDTH, CELLWIDTH, CELLWIDTH); }
-        else { ctx.clearRect(j*CELLWIDTH, i*CELLWIDTH, CELLWIDTH, CELLWIDTH); }
+        if (mGrid[i][j] === true) { ctx.fillRect(j*CELLWIDTH, i*CELLWIDTH, CELLWIDTH, CELLWIDTH); }
         mTempGrid[i][j] = checkRules(i,j);
       }
     }
