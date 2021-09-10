@@ -3,7 +3,8 @@ import {useEffect} from "react";
 import styled from 'styled-components'
 
 const CanvasElem = styled.canvas`
-  background: white;
+  border: 0;
+  outline: 0;
 `
 
 const GameGrid = ({mWidth, mHeight, gridSize, controllerId}) => {
@@ -37,7 +38,7 @@ const GameGrid = ({mWidth, mHeight, gridSize, controllerId}) => {
     for (let j=0; j<mGridSize; j++)
     {
       //row.push(Math.random() < 0.5);
-      if(i>mGridSize*0.4 && i<mGridSize*0.6 && j>mGridSize*0.4 && j<mGridSize*0.6) row.push(Math.random() < 0.5)
+      if(i>mGridSize*0.3 && i<mGridSize*0.7 && j>mGridSize*0.3 && j<mGridSize*0.7) row.push(Math.random() < 0.5)
       else row.push(false)
     }
     mGrid.push(row);
@@ -91,7 +92,7 @@ const GameGrid = ({mWidth, mHeight, gridSize, controllerId}) => {
     ctx.imageSmoothingEnabled = false
 
     ctx.fillStyle = "#ffffff";
-    ctx.clearRect(j*CELLWIDTH, i*CELLWIDTH, CELLWIDTH, CELLWIDTH);
+    ctx.clearRect(0, 0, 1000, 1000);
     for (let i=0;i<mGridSize;i++) {
       for (let j=0;j<mGridSize;j++)
       {
